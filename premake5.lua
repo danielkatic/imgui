@@ -2,7 +2,7 @@ project "ImGui"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
-    architecture "x64"
+    staticruntime "on"
     
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -22,17 +22,16 @@ project "ImGui"
         "imgui_tables.cpp"
     }
     
-    filter "system:windows"
-        systemversion "latest"
-        staticruntime "On"
-    
-    filter "system:macosx"
-		pic "On"
-		staticruntime "On"
+  filter "system:windows"
+      systemversion "latest"
 
 	filter "system:linux"
-		pic "On"
 		systemversion "latest"
         
-    filter { "system:windows", "configurations:Release" }
-        buildoptions "/MT"
+    filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
